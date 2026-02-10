@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SmartLogix AI
 
 SmartLogix AI is an intelligent logistics optimization platform that leverages machine learning to predict demand and estimate route ETAs for efficient shipping and supply chain management.
@@ -109,3 +110,7 @@ docker run -p 8000:8000 smartlogix-backend
 ## 📄 License
 
 This project is proprietary and confidential.
+=======
+# SMARTLOGIX-AI
+SmartLogix AI is an end-to-end AI-powered logistics and supply chain intelligence system. It predicts product demand levels and delivery ETA using machine learning models, stores predictions for traceability, and provides interactive dashboards for analytics and decision support.
+>>>>>>> 7199082d14414f36d378aed1834986864cf3de63
