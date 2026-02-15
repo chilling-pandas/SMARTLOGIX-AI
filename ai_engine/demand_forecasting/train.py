@@ -1,6 +1,11 @@
 import numpy as np
 import joblib
+import json
+import matplotlib.pyplot as plt
+import os
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
 # -----------------------------
 # Synthetic training data
@@ -20,9 +25,52 @@ X = np.array([
 # Labels: 0=LOW, 1=MEDIUM, 2=HIGH
 y = np.array([0, 0, 1, 1, 2, 2])
 
+# -----------------------------
+# Train/Test Split
+# -----------------------------
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
 # Train model
 model = LogisticRegression(max_iter=500)
 model.fit(X, y)
+
+# -----------------------------
+# Evaluate
+# -----------------------------
+y_pred = model.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+cm = confusion_matrix(y_test, y_pred)
+report = classification_report(y_test, y_pred)
+
+print("Accuracy:", accuracy)
+print("\nConfusion Matrix:\n", cm)
+print("\nClassification Report:\n", report)
+
+# Create evaluation directory
+os.makedirs("evaluation", exist_ok=True)
+
+# Save metrics to JSON
+metrics = {
+    "accuracy": float(accuracy),
+    "classification_report": report
+}
+
+with open("evaluation/demand_metrics.json", "w") as f:
+    json.dump(metrics, f, indent=4)
+
+# Save confusion matrix image
+plt.figure()
+plt.imshow(cm, interpolation="nearest")
+plt.title("Confusion Matrix")
+plt.colorbar()
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.savefig("evaluation/confusion_matrix.png")
+plt.close()
+
 
 # Save model
 import os

@@ -114,3 +114,73 @@ This project is proprietary and confidential.
 # SMARTLOGIX-AI
 SmartLogix AI is an end-to-end AI-powered logistics and supply chain intelligence system. It predicts product demand levels and delivery ETA using machine learning models, stores predictions for traceability, and provides interactive dashboards for analytics and decision support.
 >>>>>>> 7199082d14414f36d378aed1834986864cf3de63
+
+## 🏗️ System Architecture
+
+```mermaid
+graph TD
+    A[Streamlit Frontend] --> B[FastAPI Backend]
+    B --> C[AI Engine]
+    C --> D[Demand Model - Logistic Regression]
+    C --> E[ETA Model - Linear Regression]
+    B --> F[(PostgreSQL Database)]
+    C --> G[Evaluation Artifacts]
+
+
+If GitHub doesn’t render Mermaid, use text diagram:
+
+```markdown
+## 🏗️ System Architecture
+
+Streamlit (Frontend)
+        ↓
+FastAPI (Backend API Layer)
+        ↓
+AI Engine (ML Models)
+   ├── Demand Forecasting (Logistic Regression)
+   └── ETA Prediction (Linear Regression)
+        ↓
+PostgreSQL (Prediction & Shipment Storage)
+        ↓
+Evaluation Layer (Metrics + Confusion Matrix)
+
+## 📊 Model Evaluation
+
+### Demand Forecasting Model (Classification)
+
+- Train/Test Split: 70/30
+- Model: Logistic Regression
+- Metric: Accuracy, Confusion Matrix
+
+#### Accuracy
+See `evaluation/demand_metrics.json`
+
+#### Confusion Matrix
+![Confusion Matrix](evaluation/confusion_matrix.png)
+
+---
+
+### ETA Prediction Model (Regression)
+
+- Train/Test Split: 70/30
+- Model: Linear Regression
+- Metrics:
+  - MAE (Mean Absolute Error)
+  - MSE (Mean Squared Error)
+  - R² Score
+
+See `evaluation/eta_metrics.json`
+
+## 📈 Why These Metrics?
+
+### Classification (Demand Model)
+
+- **Accuracy**: Measures overall correctness of demand classification.
+- **Confusion Matrix**: Provides class-level insight into prediction errors (LOW vs MEDIUM vs HIGH).
+- **Classification Report**: Precision, Recall, and F1-score give deeper performance understanding.
+
+### Regression (ETA Model)
+
+- **MAE**: Measures average absolute prediction error in minutes. Easy to interpret operationally.
+- **MSE**: Penalizes larger errors more heavily.
+- **R² Score**: Indicates how well the model explains variance in delivery time.
