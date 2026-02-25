@@ -134,8 +134,8 @@ with tab3:
             )
 
             # ================= TABLE =================
-            if st.toggle("Show Demand Table"):
-                st.dataframe(df_demand, use_container_width=True)
+            #if st.toggle("Show Demand Table"):
+            #    st.dataframe(df_demand, use_container_width=True)
 
             # ================= CHARTS =================
             st.subheader("Demand Distribution")
@@ -181,8 +181,8 @@ with tab3:
             col3.metric("Max ETA", round(df_ship["eta_minutes"].max(), 2))
     
             # ================= TOGGLE TABLE =================
-            if st.toggle("Show Shipment Table"):
-                st.dataframe(df_ship, use_container_width=True)
+            #if st.toggle("Show Shipment Table"):
+            #    st.dataframe(df_ship, use_container_width=True)
     
             # ================= ETA DISTRIBUTION =================
             st.subheader("ETA Distribution (Filtered)")
