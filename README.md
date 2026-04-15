@@ -85,8 +85,14 @@ classDef data fill:#3b82f6,color:#ffffff;
 classDef infra fill:#ef4444,color:#ffffff;
 classDef notebook fill:#8b5cf6,color:#ffffff;
 
+
+👉 **Important:** Make sure this ends with:
+
 ---
 
+### 3️⃣ Immediately AFTER that, press Enter and paste this:
+
+```markdown
 ## 🏗️ System Architecture
 
 ```mermaid
@@ -97,5 +103,3 @@ graph TD
     C --> E[ETA Model - Linear Regression]
     B --> F[(PostgreSQL Database)]
     C --> G[Evaluation Metrics]
-
-
