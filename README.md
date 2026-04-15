@@ -4,7 +4,6 @@ SmartLogix AI is an AI-powered logistics and supply chain intelligence system th
 
 ---
 
-
 ## 🚚 Problem Statement
 
 Logistics systems often face inaccurate demand estimation and delivery delays.  
@@ -50,7 +49,6 @@ A --> D[Frontend]:::frontend
 A --> E[Data]:::data
 A --> F[Docker]:::infra
 A --> G[Notebooks]:::notebook
-A --> H[Vector Index]:::vector
 
 %% AI ENGINE
 B --> B1[Demand Forecasting]
@@ -78,9 +76,6 @@ F --> F2[AI Dockerfile]
 %% NOTEBOOK
 G --> G1[Exploration]
 
-%% VECTOR
-H --> H1[FAISS Index]
-
 %% STYLES
 classDef root fill:#0f172a,color:#ffffff,stroke:#ffffff;
 classDef ai fill:#6366f1,color:#ffffff;
@@ -89,9 +84,8 @@ classDef frontend fill:#f59e0b,color:#ffffff;
 classDef data fill:#3b82f6,color:#ffffff;
 classDef infra fill:#ef4444,color:#ffffff;
 classDef notebook fill:#8b5cf6,color:#ffffff;
-classDef vector fill:#14b8a6,color:#ffffff;
 
----
+```markdown
 
 ## 🏗️ System Architecture
 
@@ -99,7 +93,8 @@ classDef vector fill:#14b8a6,color:#ffffff;
 graph TD
     A[Frontend - Streamlit] --> B[Backend - FastAPI]
     B --> C[AI Engine]
-    C --> D[Demand Model]
-    C --> E[ETA Model]
-    B --> F[(PostgreSQL)]
+    C --> D[Demand Model - Logistic Regression]
+    C --> E[ETA Model - Linear Regression]
+    B --> F[(PostgreSQL Database)]
     C --> G[Evaluation Metrics]
+
