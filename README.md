@@ -86,14 +86,5 @@ classDef infra fill:#ef4444,color:#ffffff;
 classDef notebook fill:#8b5cf6,color:#ffffff;
 
 
-## 🏗️ System Architecture
 
-```mermaid
-graph TD
-    A[Frontend - Streamlit] --> B[Backend - FastAPI]
-    B --> C[AI Engine]
-    C --> D[Demand Model - Logistic Regression]
-    C --> E[ETA Model - Linear Regression]
-    B --> F[(PostgreSQL Database)]
-    C --> G[Evaluation Metrics]
 
