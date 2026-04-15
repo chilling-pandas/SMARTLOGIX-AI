@@ -84,24 +84,24 @@ G --> G1[exploration.ipynb]
 H --> H1[FAISS Index]
 
 %% STYLES
-classDef root fill:#0f172a,stroke:#fff,color:#fff,stroke-width:2px;
+classDef root fill:#0f172a,stroke:#ffffff,color:#ffffff,stroke-width:2px;
 
-classDef ai fill:#6366f1,color:#fff,stroke:#1e1b4b;
-classDef ai_sub fill:#a5b4fc,color:#000;
+classDef ai fill:#6366f1,color:#ffffff,stroke:#1e1b4b;
+classDef ai_sub fill:#a5b4fc,color:#000000;
 
-classDef backend fill:#10b981,color:#fff,stroke:#064e3b;
-classDef backend_sub fill:#6ee7b7,color:#000;
+classDef backend fill:#10b981,color:#ffffff,stroke:#064e3b;
+classDef backend_sub fill:#6ee7b7,color:#000000;
 
-classDef frontend fill:#f59e0b,color:#fff,stroke:#78350f;
-classDef frontend_sub fill:#fde68a,color:#000;
+classDef frontend fill:#f59e0b,color:#ffffff,stroke:#78350f;
+classDef frontend_sub fill:#fde68a,color:#000000;
 
-classDef data fill:#3b82f6,color:#fff,stroke:#1e3a8a;
+classDef data fill:#3b82f6,color:#ffffff,stroke:#1e3a8a;
 
-classDef infra fill:#ef4444,color:#fff,stroke:#7f1d1d;
+classDef infra fill:#ef4444,color:#ffffff,stroke:#7f1d1d;
 
-classDef notebook fill:#8b5cf6,color:#fff,stroke:#4c1d95;
+classDef notebook fill:#8b5cf6,color:#ffffff,stroke:#4c1d95;
 
-classDef vector fill:#14b8a6,color:#fff,stroke:#134e4a;
+classDef vector fill:#14b8a6,color:#ffffff,stroke:#134e4a;
 
 
 ### Running the Application
