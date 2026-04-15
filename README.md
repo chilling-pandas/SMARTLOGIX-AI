@@ -98,38 +98,4 @@ graph TD
     C --> E[ETA Model - Linear Regression]
     B --> F[(PostgreSQL Database)]
     C --> G[Evaluation Metrics]
-```
 
----
-
-## ⚙️ Run Locally
-
-### Backend
-```bash
-uvicorn backend.app.main:app --reload
-```
-
-Swagger:
-http://localhost:8000/docs
-
----
-
-### Frontend (Optional)
-```bash
-streamlit run frontend/streamlit_app/app.py
-```
-
----
-
-## 🐳 Docker
-
-```bash
-docker build -f docker/backend.Dockerfile -t smartlogix-backend .
-docker run -p 8000:8000 smartlogix-backend
-```
-
----
-
-## 👨‍💻 Author
-
-Sourav Manna
