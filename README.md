@@ -39,6 +39,8 @@ SmartLogix AI addresses this using machine learning predictions combined with op
 
 ## 📁 Project Structure (Visual)
 
+## 📁 Project Structure (Visual)
+
 ```mermaid
 graph TD
 
