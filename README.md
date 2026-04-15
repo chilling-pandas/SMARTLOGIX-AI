@@ -13,27 +13,95 @@ SmartLogix AI is an intelligent logistics optimization platform that leverages m
 - Clean separation of ML, API, and storage layers
 
 
-📋 Project Structure
+## 🏗️ Project Structure
 
-```
-smartlogix-ai/
-├── ai_engine/                    # Machine Learning models and training
-│   ├── demand_forecasting/       # Demand prediction models
-│   ├── route_eta/                # Route ETA estimation
-│   └── utils/                    # Utility functions and encoders
-├── backend/                      # FastAPI backend application
-│   ├── app/
-│   │   ├── api/                  # API endpoints for demand, shipping, health, history
-│   │   ├── core/                 # Core configs, database, ML loader
-│   │   ├── models/               # SQLAlchemy ORM models
-│   │   └── schemas/              # Pydantic schemas
-│   └── requirements.txt
-├── frontend/                     # Streamlit UI application
-│   └── streamlit_app/
-├── notebooks/                    # Jupyter notebooks for exploration
-├── data/                         # Data storage (raw, processed, samples)
-├── docker/                       # Docker configurations
-```
+```mermaid
+graph TD
+
+A[SmartLogix AI]:::root
+
+A --> B[AI Engine]:::ai
+A --> C[Backend API]:::backend
+A --> D[Frontend]:::frontend
+A --> E[Data Layer]:::data
+A --> F[Docker]:::infra
+A --> G[Notebooks]:::notebook
+A --> H[Vector Index]:::vector
+
+%% AI ENGINE
+B --> B1[Demand Forecasting]:::ai_sub
+B1 --> B1a[features.py]
+B1 --> B1b[model.py]
+B1 --> B1c[train.py]
+
+B --> B2[Route ETA]:::ai_sub
+B2 --> B2a[features.py]
+B2 --> B2b[model.py]
+B2 --> B2c[train.py]
+
+B --> B3[Utils]:::ai_sub
+B3 --> B3a[encoders.py]
+
+%% BACKEND
+C --> C1[App Core]:::backend_sub
+C1 --> C1a[main.py]
+C1 --> C1b[create_tables.py]
+
+C --> C2[API Layer]:::backend_sub
+C2 --> C2a[demand.py]
+C2 --> C2b[shipping.py]
+C2 --> C2c[health.py]
+
+C --> C3[Core Config]:::backend_sub
+C3 --> C3a[config.py]
+C3 --> C3b[database.py]
+
+C --> C4[Models]:::backend_sub
+C4 --> C4a[order.py]
+C4 --> C4b[shipment.py]
+
+C --> C5[Schemas]:::backend_sub
+C5 --> C5a[demand.py]
+C5 --> C5b[shipping.py]
+
+%% FRONTEND
+D --> D1[Streamlit App]:::frontend_sub
+D1 --> D1a[app.py]
+
+%% DATA
+E --> E1[Raw Data]
+E --> E2[Processed Data]
+E --> E3[Samples]
+
+%% DOCKER
+F --> F1[Backend Dockerfile]
+F --> F2[AI Dockerfile]
+
+%% NOTEBOOK
+G --> G1[exploration.ipynb]
+
+%% VECTOR
+H --> H1[FAISS Index]
+
+%% STYLES
+classDef root fill:#0f172a,stroke:#fff,color:#fff,stroke-width:2px;
+
+classDef ai fill:#6366f1,color:#fff,stroke:#1e1b4b;
+classDef ai_sub fill:#a5b4fc,color:#000;
+
+classDef backend fill:#10b981,color:#fff,stroke:#064e3b;
+classDef backend_sub fill:#6ee7b7,color:#000;
+
+classDef frontend fill:#f59e0b,color:#fff,stroke:#78350f;
+classDef frontend_sub fill:#fde68a,color:#000;
+
+classDef data fill:#3b82f6,color:#fff,stroke:#1e3a8a;
+
+classDef infra fill:#ef4444,color:#fff,stroke:#7f1d1d;
+
+classDef notebook fill:#8b5cf6,color:#fff,stroke:#4c1d95;
+
+classDef vector fill:#14b8a6,color:#fff,stroke:#134e4a;
 
 
 ### Running the Application
