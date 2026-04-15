@@ -85,7 +85,6 @@ classDef data fill:#3b82f6,color:#ffffff;
 classDef infra fill:#ef4444,color:#ffffff;
 classDef notebook fill:#8b5cf6,color:#ffffff;
 
-```markdown
 
 ## 🏗️ System Architecture
 
