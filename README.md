@@ -90,3 +90,16 @@ classDef data fill:#3b82f6,color:#ffffff;
 classDef infra fill:#ef4444,color:#ffffff;
 classDef notebook fill:#8b5cf6,color:#ffffff;
 classDef vector fill:#14b8a6,color:#ffffff;
+
+---
+
+## 🏗️ System Architecture
+
+```mermaid
+graph TD
+    A[Frontend - Streamlit] --> B[Backend - FastAPI]
+    B --> C[AI Engine]
+    C --> D[Demand Model]
+    C --> E[ETA Model]
+    B --> F[(PostgreSQL)]
+    C --> G[Evaluation Metrics]
