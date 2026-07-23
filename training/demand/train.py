@@ -27,12 +27,11 @@ X_train, X_test, y_train, y_test = train_test_split(
 print(f"Training Samples : {len(X_train)}")
 print(f"Testing Samples  : {len(X_test)}")
 
-# -----------------------------
-# Model
-# -----------------------------
 model = RandomForestClassifier(
-    n_estimators=200,
-    max_depth=None,
+    n_estimators=100,
+    max_depth=15,
+    min_samples_split=5,
+    min_samples_leaf=2,
     random_state=42,
     n_jobs=-1,
 )
@@ -68,7 +67,9 @@ model_path = (
     / "demand_forecasting"
     / "demand_model.pkl"
 )
+print("\nTraining completed...")
+print(f"Number of trees: {len(model.estimators_)}")
+print(f"Max depth of first tree: {model.estimators_[0].tree_.max_depth}")
 
-joblib.dump(model, model_path)
-
+joblib.dump(model, model_path, compress=3)
 print(f"\nModel saved to:\n{model_path}")
