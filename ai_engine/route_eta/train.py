@@ -1,61 +1,102 @@
-import numpy as np
 import joblib
-import json
-import os
-from sklearn.linear_model import LinearRegression
+import pandas as pd
+
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-
-
-# Features:
-# [distance, traffic, weather, vehicle]
-X = np.array([
-    [5, 1, 0, 1],
-    [10, 2, 0, 2],
-    [15, 3, 1, 3],
-    [20, 2, 1, 2],
-    [8, 1, 0, 1],
-    [18, 3, 1, 3],
-])
-
-# ETA in minutes
-y = np.array([15, 30, 60, 50, 22, 70])
-
-# -----------------------------
-# Train/Test Split
-# -----------------------------
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.3, random_state=42
+from sklearn.metrics import (
+    mean_absolute_error,
+    mean_squared_error,
+    r2_score,
 )
 
-model = LinearRegression()
-model.fit(X, y)
-
-# -----------------------------
-# Evaluate
-# -----------------------------
-y_pred = model.predict(X_test)
-
-mae = mean_absolute_error(y_test, y_pred)
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
-
-print("MAE:", mae)
-print("MSE:", mse)
-print("R2 Score:", r2)
-
-os.makedirs("evaluation", exist_ok=True)
-
-eta_metrics = {
-    "MAE": float(mae),
-    "MSE": float(mse),
-    "R2": float(r2)
-}
-
-with open("evaluation/eta_metrics.json", "w") as f:
-    json.dump(eta_metrics, f, indent=4)
+from xgboost import XGBRegressor
 
 
-joblib.dump(model, "eta_model.pkl")
+# Load Dataset
+df = pd.read_csv("data/raw/Delivery_Logistics.csv")
+import re
 
-print("✅ Dummy ETA model trained & saved")
+def extract_hours(value):
+    match = re.search(r'(\d+)$', str(value))
+    return int(match.group(1))
+
+df["delivery_time_hours"] = df["delivery_time_hours"].apply(extract_hours)
+df["expected_time_hours"] = df["expected_time_hours"].apply(extract_hours)
+
+# Drop unused columns
+X = df.drop(
+    columns=[
+        "delivery_id",
+        "delivery_time_hours",
+        "expected_time_hours",
+        "delayed",
+        "delivery_status",
+        "delivery_cost",
+    ]
+)
+
+y = df["delivery_time_hours"]
+
+# Categorical & Numerical Features
+categorical_features = X.select_dtypes(include=["object"]).columns.tolist()
+numeric_features = X.select_dtypes(exclude=["object"]).columns.tolist()
+
+# Train-Test Split
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42,
+)
+
+# Preprocessing
+preprocessor = ColumnTransformer(
+    transformers=[
+        (
+            "cat",
+            OneHotEncoder(handle_unknown="ignore"),
+            categorical_features,
+        ),
+        (
+            "num",
+            "passthrough",
+            numeric_features,
+        ),
+    ]
+)
+
+# Model
+model = Pipeline(
+    steps=[
+        ("preprocessor", preprocessor),
+        (
+            "model",
+            XGBRegressor(
+                n_estimators=200,
+                learning_rate=0.05,
+                max_depth=6,
+                random_state=42,
+                objective="reg:squarederror",
+            ),
+        ),
+    ]
+)
+
+# Train
+model.fit(X_train, y_train)
+
+# Predict
+pred = model.predict(X_test)
+
+print("Model Performance")
+print("--------------------")
+print("MAE :", mean_absolute_error(y_test, pred))
+print("RMSE:", mean_squared_error(y_test, pred) ** 0.5)
+print("R²  :", r2_score(y_test, pred))
+
+# Save Model
+joblib.dump(model, "ai_engine/route_eta/eta_model.pkl")
+
+print("Model saved successfully!")

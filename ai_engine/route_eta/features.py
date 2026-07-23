@@ -1,13 +1,15 @@
-import numpy as np
+import pandas as pd
 
-TRAFFIC_MAP = {"LOW": 1, "MEDIUM": 2, "HIGH": 3}
-WEATHER_MAP = {"CLEAR": 0, "RAIN": 1}
-VEHICLE_MAP = {"BIKE": 1, "VAN": 2, "TRUCK": 3}
 
-def build_features(data: dict) -> np.ndarray:
-    return np.array([[
-        data["distance_km"],
-        TRAFFIC_MAP[data["traffic_level"]],
-        WEATHER_MAP[data["weather"]],
-        VEHICLE_MAP[data["vehicle_type"]],
-    ]])
+def build_features(data: dict) -> pd.DataFrame:
+    return pd.DataFrame([{
+        "delivery_partner": data["delivery_partner"],
+        "package_type": data["package_type"],
+        "vehicle_type": data["vehicle_type"],
+        "delivery_mode": data["delivery_mode"],
+        "region": data["region"],
+        "weather_condition": data["weather_condition"],
+        "distance_km": data["distance_km"],
+        "package_weight_kg": data["package_weight_kg"],
+        "delivery_rating": data["delivery_rating"],
+    }])

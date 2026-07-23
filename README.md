@@ -1,5 +1,24 @@
 # 🚚 SmartLogix AI
 
+<p align="center">
+  <img src="assets/demand.png" width="30%" alt="Demand Prediction"/>
+  <img src="assets/eta.png" width="30%" alt="ETA Prediction"/>
+  <img src="assets/history.png" width="30%" alt="Prediction History"/>
+</p>
+
+<p align="center">
+<b>Demand Prediction</b> &nbsp;&nbsp;&nbsp;&nbsp;
+<b>ETA Prediction</b> &nbsp;&nbsp;&nbsp;&nbsp;
+<b>Analytics Dashboard</b>
+</p>
+
+---
+
+SmartLogix AI is an AI-powered logistics and supply chain intelligence system that predicts product demand and delivery ETA using machine learning, with backend APIs and analytics dashboards for decision support.
+
+---
+# 🚚 SmartLogix AI
+
 SmartLogix AI is an AI-powered logistics and supply chain intelligence system that predicts product demand and delivery ETA using machine learning, with backend APIs and analytics dashboards for decision support.
 
 ---

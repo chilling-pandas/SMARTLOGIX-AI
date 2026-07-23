@@ -1,13 +1,18 @@
 from pydantic import BaseModel
 from typing import List
 
+
 class EtaRequest(BaseModel):
-    source_id: int
-    destination_id: int
+    delivery_partner: str
+    package_type: str
+    vehicle_type: str
+    delivery_mode: str
+    region: str
+    weather_condition: str
+
     distance_km: float
-    traffic_level: str      # LOW / MEDIUM / HIGH
-    weather: str            # CLEAR / RAIN
-    vehicle_type: str       # BIKE / VAN / TRUCK
+    package_weight_kg: float
+    delivery_rating: float
 
 
 class EtaResponse(BaseModel):

@@ -30,14 +30,20 @@ def demand_history(db: Session = Depends(get_db)):
 @router.get("/history/shipments")
 def shipment_history(db: Session = Depends(get_db)):
     records = db.query(Shipment).order_by(Shipment.id.desc()).limit(50).all()
+
     return [
         {
-            "source_id": r.source_id,
-            "destination_id": r.destination_id,
-            "distance_km": r.distance_km,
-            "traffic_level": r.traffic_level,
+            "delivery_partner": r.delivery_partner,
+            "package_type": r.package_type,
             "vehicle_type": r.vehicle_type,
-            "eta_minutes": r.actual_time
+            "delivery_mode": r.delivery_mode,
+            "region": r.region,
+            "weather_condition": r.weather_condition,
+            "distance_km": r.distance_km,
+            "package_weight_kg": r.package_weight_kg,
+            "delivery_rating": r.delivery_rating,
+            "eta_minutes": r.actual_time,
+            "created_at": r.created_at
         }
         for r in records
     ]

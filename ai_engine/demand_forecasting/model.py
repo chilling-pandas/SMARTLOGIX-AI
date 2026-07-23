@@ -12,6 +12,12 @@ class DemandModel:
         self.model: LogisticRegression = joblib.load(model_path)
 
     def predict(self, X):
-        pred_class = self.model.predict(X)[0]
+        pred = self.model.predict(X)[0]
         confidence = self.model.predict_proba(X)[0].max()
-        return LABEL_MAP[pred_class], confidence
+
+        # If the model already returns string labels
+        if isinstance(pred, str):
+            return pred, confidence
+
+        # Otherwise convert numeric class to label
+        return LABEL_MAP[pred], confidence

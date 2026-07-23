@@ -20,15 +20,19 @@ def predict_eta(
     db: Session = Depends(get_db)
 ):
     X = build_features(request.dict())
-    eta = eta_model.predict(X)   # ✅ correct variable
+
+    eta = eta_model.predict(X)
 
     shipment = Shipment(
-        source_id=request.source_id,
-        destination_id=request.destination_id,
-        distance_km=request.distance_km,
-        traffic_level=request.traffic_level,
-        weather=request.weather,
+        delivery_partner=request.delivery_partner,
+        package_type=request.package_type,
         vehicle_type=request.vehicle_type,
+        delivery_mode=request.delivery_mode,
+        region=request.region,
+        weather_condition=request.weather_condition,
+        distance_km=request.distance_km,
+        package_weight_kg=request.package_weight_kg,
+        delivery_rating=request.delivery_rating,
         actual_time=eta
     )
 
@@ -36,7 +40,9 @@ def predict_eta(
     db.commit()
     db.refresh(shipment)
 
+
+    eta_hours = eta
     return EtaResponse(
-        estimated_time_minutes=eta,
-        confidence=0.75
+         estimated_time_minutes=round(eta_hours * 60, 2),
+         confidence=0.75
     )

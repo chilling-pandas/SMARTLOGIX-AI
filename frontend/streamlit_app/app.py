@@ -48,40 +48,152 @@ with tab1:
             st.write(f"Confidence: {data['confidence']}")
             st.info(data["recommendation"])
         else:
-            st.error("Prediction failed")
+            try:
+                st.error(res.json()["detail"])
+            except:
+                st.error(res.text)
 
 # -------------------------
 # ETA Prediction
 # -------------------------
 with tab2:
-    st.subheader("Predict Delivery ETA")
+    st.subheader("🚚 Predict Delivery ETA")
 
-    source = st.number_input("Source ID", min_value=1)
-    destination = st.number_input("Destination ID", min_value=1)
-    distance = st.number_input("Distance (km)")
+    delivery_partner = st.selectbox(
+        "Delivery Partner",
+        [
+            "amazon logistics",
+            "blue dart",
+            "delhivery",
+            "dhl",
+            "ecom express",
+            "ekart",
+            "fedex",
+            "shadowfax",
+            "xpressbees"
+        ]
+    )
 
-    traffic = st.selectbox("Traffic Level", ["LOW", "MEDIUM", "HIGH"])
-    weather = st.selectbox("Weather", ["CLEAR", "RAIN"])
-    vehicle = st.selectbox("Vehicle Type", ["BIKE", "VAN", "TRUCK"])
+    package_type = st.selectbox(
+        "Package Type",
+        [
+            "automobile parts",
+            "clothing",
+            "cosmetics",
+            "documents",
+            "electronics",
+            "fragile items",
+            "furniture",
+            "groceries",
+            "pharmacy"
+        ]
+    )
+
+    vehicle_type = st.selectbox(
+        "Vehicle Type",
+        [
+            "bike",
+            "ev bike",
+            "ev van",
+            "scooter",
+            "truck",
+            "van"
+        ]
+    )
+
+    delivery_mode = st.selectbox(
+        "Delivery Mode",
+        [
+            "express",
+            "same day",
+            "standard",
+            "two day"
+        ]
+    )
+
+    region = st.selectbox(
+        "Region",
+        [
+            "central",
+            "east",
+            "north",
+            "south",
+            "west"
+        ]
+    )
+
+    weather_condition = st.selectbox(
+        "Weather",
+        [
+            "clear",
+            "cold",
+            "foggy",
+            "hot",
+            "rainy",
+            "stormy"
+        ]
+    )
+
+    distance_km = st.number_input(
+        "Distance (km)",
+        min_value=3.6,
+        max_value=297.1,
+        value=10.0,
+        step=0.1
+    )
+
+    package_weight = st.number_input(
+        "Package Weight (kg)",
+        min_value=0.1,
+        max_value=50.0,
+        value=5.0,
+        step=0.1
+    )
+
+    delivery_rating = st.slider(
+        "Delivery Rating",
+        min_value=1.0,
+        max_value=5.0,
+        value=3.0,
+        step=1.0
+    )
 
     if st.button("Predict ETA"):
+
         payload = {
-            "source_id": source,
-            "destination_id": destination,
-            "distance_km": distance,
-            "traffic_level": traffic,
-            "weather": weather,
-            "vehicle_type": vehicle
+            "delivery_partner": delivery_partner,
+            "package_type": package_type,
+            "vehicle_type": vehicle_type,
+            "delivery_mode": delivery_mode,
+            "region": region,
+            "weather_condition": weather_condition,
+            "distance_km": distance_km,
+            "package_weight_kg": package_weight,
+            "delivery_rating": delivery_rating
         }
 
-        res = requests.post(f"{BACKEND_URL}/predict-eta", json=payload)
+        res = requests.post(
+            f"{BACKEND_URL}/predict-eta",
+            json=payload
+        )
 
         if res.status_code == 200:
             data = res.json()
-            st.success(f"Estimated Time: {data['estimated_time_minutes']} minutes")
-        else:
-            st.error("ETA prediction failed")
 
+            st.success(
+                f"Estimated Time: {data['estimated_time_minutes']} minutes"
+            )
+
+            st.metric(
+                "Confidence",
+                data["confidence"]
+            )
+
+        else:
+            try:
+                st.error(res.json()["detail"])
+            except:
+                st.error(res.text)
 # Add History Tabs
 with tab3:
     
@@ -189,17 +301,24 @@ with tab3:
             st.bar_chart(df_ship["eta_minutes"])
     
             # ================= TRAFFIC VS ETA =================
-            st.subheader("Traffic Level vs Avg ETA")
+            st.subheader("Region vs Avg ETA")
     
-            traffic_eta = (
+            region_eta = (
                 df_ship
-                .groupby("traffic_level")["eta_minutes"]
+                .groupby("region")["eta_minutes"]
                 .mean()
-                .reset_index()
             )
-    
-            st.bar_chart(traffic_eta.set_index("traffic_level"))
-    
+            
+            st.bar_chart(region_eta)
+            st.subheader("Weather vs Avg ETA")
+
+            weather_eta = (
+                df_ship
+                .groupby("weather_condition")["eta_minutes"]
+                .mean()
+            )
+            
+            st.bar_chart(weather_eta)
             # ================= VEHICLE VS ETA =================
             st.subheader("Vehicle Type vs Avg ETA")
     
@@ -234,9 +353,9 @@ with tab3:
             
             col1, col2, col3 = st.columns(3)
             
-            col1.metric("Accuracy", "0.92")
-            col2.metric("Precision", "0.90")
-            col3.metric("Recall", "0.91")
+            # col1.metric("Accuracy", "0.92")
+            # col2.metric("Precision", "0.90")
+            # col3.metric("Recall", "0.91")
             
     
         else:
