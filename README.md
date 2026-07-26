@@ -1,3 +1,5 @@
+LIVE DEMO: https://smartlogix-ai.duckdns.org/
+
 # 🚚 SmartLogix AI
 
 <p align="center">
